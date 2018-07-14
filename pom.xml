@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.exadel</groupId>
+    <artifactId>junit5-talk</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>firstModule</module>
+        <module>secondModule</module>
+        <module>thirdModule</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.12</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!--<dependency>-->
+                <!--<groupId>org.junit.vintage</groupId>-->
+                <!--<artifactId>junit-vintage-engine</artifactId>-->
+                <!--<version>5.2.0</version>-->
+                <!--<scope>test</scope>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+                <!--<groupId>org.junit.jupiter</groupId>-->
+                <!--<artifactId>junit-jupiter-engine</artifactId>-->
+                <!--<version>5.2.0</version>-->
+                <!--<scope>test</scope>-->
+            <!--</dependency>-->
+
+            <!--&lt;!&ndash; junit-platform-launcher only required to run tests in an IDE that bundles an older version &ndash;&gt;-->
+            <!--<dependency>-->
+                <!--<groupId>org.junit.platform</groupId>-->
+                <!--<artifactId>junit-platform-launcher</artifactId>-->
+                <!--<version>1.2.0</version>-->
+                <!--<scope>test</scope>-->
+            <!--</dependency>-->
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.junit.vintage</groupId>-->
+            <!--<artifactId>junit-vintage-engine</artifactId>-->
+            <!--<scope>test</scope>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.junit.jupiter</groupId>-->
+            <!--<artifactId>junit-jupiter-engine</artifactId>-->
+            <!--<scope>test</scope>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.junit.platform</groupId>-->
+            <!--<artifactId>junit-platform-launcher</artifactId>-->
+            <!--<scope>test</scope>-->
+        <!--</dependency>-->
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.3</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.22.0</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.maven.surefire</groupId>
+                            <artifactId>surefire-junit47</artifactId>
+                            <version>2.21.0</version>
+                        </dependency>
+                        <!--<dependency>-->
+                            <!--<groupId>org.junit.platform</groupId>-->
+                            <!--<artifactId>junit-platform-surefire-provider</artifactId>-->
+                            <!--<version>1.2.0</version>-->
+                        <!--</dependency>-->
+                    </dependencies>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.10</source>
+                    <target>1.10</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>-Dfile.encoding=UTF-8 -Xmx1024m -Djava.awt.headless=true -noverify</argLine>
+                    <excludedGroups>com.exadel.test.IntegrationTest, com.exadel.test.UiTest</excludedGroups>
+                    <!--<properties>-->
+                        <!--<excludedGroups>com.exadel.test.IntegrationTest, com.exadel.test.UiTest</excludedGroups>-->
+                    <!--</properties>-->
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>integrationTest</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration combine.self="override">
+                            <groups>com.exadel.test.IntegrationTest</groups>
+                            <argLine>-Dfile.encoding=UTF-8 -Xmx1024m -noverify</argLine>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>uiTest</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration combine.self="override">
+                            <groups>com.exadel.test.UiTest</groups>
+                            <argLine>-Dfile.encoding=UTF-8 -Xmx1024m -noverify</argLine>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>
